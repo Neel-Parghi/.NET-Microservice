@@ -1,6 +1,6 @@
-﻿using PlateformService.Models;
+﻿using PlatformService.Models;
 
-namespace PlateformService.Data
+namespace PlatformService.Data
 {
     public static class PrepDb
     {
@@ -12,7 +12,7 @@ namespace PlateformService.Data
 
         private static void SeedData(AppDbContext context)
         {
-            if (!context.Plateforms.Any())
+            if (!context.Platforms.Any())
             {
                 context.AddRange(
                     new Platform() { Name = "Dot net", Publisher = "Microsoft", Cost = "Free"}, 

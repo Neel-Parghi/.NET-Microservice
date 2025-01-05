@@ -1,4 +1,4 @@
-﻿namespace PlateformService.Dto
+﻿namespace PlatformService.Dto
 {
     public class PlatformCreateDto
     {

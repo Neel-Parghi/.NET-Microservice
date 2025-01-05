@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using PlateformService.Data;
-using PlateformService.Data.Interface;
+using PlatformService.Business;
+using PlatformService.Business.Interface;
+using PlatformService.Data;
+using PlatformService.Data.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("InMemory");
 });
 
-builder.Services.AddScoped<IPlateformRepository, PlateformRepository>();
+builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
+builder.Services.AddScoped<IPlatformManager, PlatformManager>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
