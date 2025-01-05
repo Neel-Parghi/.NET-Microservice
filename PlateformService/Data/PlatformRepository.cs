@@ -26,7 +26,7 @@ namespace PlatformService.Data
             return [.. _appDbContext.Platforms];
         }
 
-        public Platform GetPlatformById(int id)
+        public Platform? GetPlatformById(int id)
         {
             return _appDbContext.Platforms.FirstOrDefault(p => p.Id == id);
         }

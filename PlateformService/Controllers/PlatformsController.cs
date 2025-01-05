@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlatformService.Business.Interface;
+using PlatformService.Dto;
 
 namespace PlatformService.Controllers
 {
@@ -17,23 +18,29 @@ namespace PlatformService.Controllers
             _PlatformManager = PlatformManager;
         }
 
-        [HttpGet("Get/{id}")]
+        [HttpGet("Get/{id}", Name = "GetPlatformById")]
         public ActionResult GetPlatformById(int id)
         {
-            return Ok(_PlatformManager.GetPlatformById(id));
+            PlatformReadDto? data = _PlatformManager.GetPlatformById(id);
+            
+            if (data != null)
+            {
+                return Ok(data);
+            }
+            return NotFound();
         }
 
         [HttpGet("Get/All")]
-        public ActionResult GetAllPlatforms()
+        public ActionResult<IEnumerable<PlatformReadDto>> GetAllPlatforms()
         {
             return Ok(_PlatformManager.GetAllPlatforms());
         }
         
         [HttpPost("Create")]
-        public ActionResult CreatePlatform()
+        public ActionResult<PlatformReadDto> CreatePlatform(PlatformCreateDto platform)
         {
-            return Ok(_PlatformManager.GetAllPlatforms());
+            PlatformReadDto platformReadDto = _PlatformManager.CreatePlatform(platform);
+            return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id }, platformReadDto);
         }
-
     }
 }

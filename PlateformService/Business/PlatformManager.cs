@@ -1,29 +1,43 @@
-﻿using PlatformService.Business.Interface;
+﻿using AutoMapper;
+using PlatformService.Business.Interface;
 using PlatformService.Data.Interface;
+using PlatformService.Dto;
 using PlatformService.Models;
 
 namespace PlatformService.Business
 {
     public class PlatformManager : IPlatformManager
     {
+        public readonly IMapper _mapper;
         public readonly IPlatformRepository _platformRepository;
-        public PlatformManager(IPlatformRepository platformRepository) 
+        public PlatformManager(IMapper mapper,IPlatformRepository platformRepository) 
         {
+            _mapper = mapper;
             _platformRepository = platformRepository;
         }
-        public void CreatePlatform(Platform Platform)
+        public PlatformReadDto CreatePlatform(PlatformCreateDto platformDto)
         {
-            _platformRepository.CreatePlatform(Platform);
+            Platform platform = _mapper.Map<Platform>(platformDto);
+            _platformRepository.CreatePlatform(platform);
+            _platformRepository.SaveChanges();
+
+            return _mapper.Map<PlatformReadDto>(platform);
         }
 
-        public IEnumerable<Platform> GetAllPlatforms()
+        public IEnumerable<PlatformReadDto> GetAllPlatforms()
         {
-            return _platformRepository.GetAllPlatforms();
+            IEnumerable<Platform> platforms = _platformRepository.GetAllPlatforms();
+            return _mapper.Map<IEnumerable<PlatformReadDto>>(platforms);
         }
 
-        public Platform GetPlatformById(int id)
+        public PlatformReadDto? GetPlatformById(int id)
         {
-            return _platformRepository.GetPlatformById(id);
+            Platform? platform = _platformRepository.GetPlatformById(id);
+            if (platform == null)
+            {
+                return null;
+            }
+            return _mapper.Map<PlatformReadDto>(platform);
         }
     }
 }
