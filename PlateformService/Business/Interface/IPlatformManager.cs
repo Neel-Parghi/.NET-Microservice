@@ -1,13 +1,13 @@
-﻿using PlatformService.Models;
+﻿using PlatformService.Dto;
 
 namespace PlatformService.Business.Interface
 {
     public interface IPlatformManager
     {
-        IEnumerable<Platform> GetAllPlatforms();
+        IEnumerable<PlatformReadDto> GetAllPlatforms();
 
-        Platform GetPlatformById(int id);
+        PlatformReadDto? GetPlatformById(int id);
 
-        void CreatePlatform(Platform Platform);
+        PlatformReadDto CreatePlatform(PlatformCreateDto Platform);
     }
 }
